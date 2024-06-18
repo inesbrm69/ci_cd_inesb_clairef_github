@@ -1,0 +1,31 @@
+version: '3.8'
+
+volumes:
+  mysql:
+
+services:
+  web:
+    image: lscr.io/linuxserver/nginx:latest
+    container_name: nginx
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx:/config 
+      - ./web:/config/www
+
+  mysql:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: test
+    build:
+      context: ./mysql
+    volumes:
+      - ./InitDB.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./mysql:/var/lib/mysql
