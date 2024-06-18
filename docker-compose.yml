@@ -24,8 +24,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: test
-    build:
-      context: ./mysql
     volumes:
       - ./InitDB.sql:/docker-entrypoint-initdb.d/init.sql
       - ./mysql:/var/lib/mysql
