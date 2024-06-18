@@ -1,0 +1,35 @@
+name: CI for web-php-bdd
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Etape 1: Checkout le repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Etape 2: Démarrer le Docker Compose
+      - name: Start Docker Compose
+        run: docker-compose up -d
+
+      # Step 4: Wait for the services to be ready
+      - name: Wait for the services to be ready
+        run: sleep 20
+
+      # Step 5: Display the web page
+      - name: Display the web page
+        run: curl http://localhost:8080
+        continue-on-error: true  # Ensure the job continues even if this step fails
+
+      # Step 6: Stop Docker Compose
+      - name: Stop Docker Compose
+        run: docker-compose down
