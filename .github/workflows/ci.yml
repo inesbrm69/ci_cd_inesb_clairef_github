@@ -27,7 +27,7 @@ jobs:
 
       # Step 5: Display the web page
       - name: Display the web page
-        run: curl http://localhost:8080
+        run: docker-compose exec web curl http://localhost
         continue-on-error: true  # Ensure the job continues even if this step fails
 
       # Step 6: Stop Docker Compose
